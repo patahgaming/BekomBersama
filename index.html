@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bastion JSON</title>
+    <link rel="icon" type="image/png" href="./assets/ui/play.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
+    <script type="module" crossorigin src="./assets/index-1KIgOzlm.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-D_SHjnj1.css">
+  </head>
+  <body>
+    <header class="top">
+      <div class="brand">
+        <h1>Bastion JSON</h1>
+        <p>Tower defense tanpa tombol beli. Tulis konfigurasinya sendiri.</p>
+      </div>
+      <div class="top-right">
+        <nav id="levels" class="levels" aria-label="Pilih chapter"></nav>
+        <button id="btn-story" class="tut-btn" title="Buka daftar chapter cerita"><span class="vee-mini"></span>Cerita</button>
+        <button id="btn-tutorial" class="tut-btn" title="Buka tutorial bersama Vee"><span class="vee-mini"></span>Tutorial</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="game panel" aria-label="Peta permainan">
+        <div class="hud" role="status">
+          <span class="hud-item"><small>Level</small><b id="hud-level">-</b></span>
+          <span class="hud-item"><small>Wave</small><b id="hud-wave">0/0</b></span>
+          <span class="hud-item"><small>Nyawa</small><b id="hud-lives">20</b></span>
+          <span class="hud-item" title="Modifier kesulitan: bounty, HP musuh, damage tower, nyawa benteng"><small>Kesulitan</small><select id="hud-difficulty"></select></span>
+          <span class="hud-item"><small>Skor</small><b id="hud-score">0</b></span>
+          <span class="hud-item" title="Poin dari kill menambah budget tower"><small>Poin</small><b id="hud-points">0</b></span>
+          <span class="hud-item"><small>Biaya</small><b id="hud-cost">0/0</b></span>
+          <span class="hud-item hud-cfg" id="hud-cfg" title="Status konfigurasi">JSON OK</span>
+        </div>
+
+        <div class="stage">
+          <canvas id="cv" width="800" height="480"></canvas>
+          <div id="overlay" class="overlay" hidden></div>
+          <div id="loading" class="overlay show"><div class="card"><h2>Memuat aset…</h2></div></div>
+        </div>
+
+        <div id="wave-preview" class="wave-preview" aria-live="polite"></div>
+        <div class="controls">
+          <button id="btn-wave" class="primary">Mulai wave</button>
+          <label class="chk"><input type="checkbox" id="chk-auto" /> Auto wave</label>
+          <div class="seg" role="group" aria-label="Kecepatan">
+            <button data-speed="1" class="on">1×</button><button data-speed="2">2×</button><button data-speed="4">4×</button>
+          </div>
+          <button id="btn-reset" class="ghost">Ulang level</button>
+          <button id="btn-brief" class="ghost" title="Baca lagi briefing Vee untuk level ini">Briefing</button>
+          <span class="spacer"></span>
+          <label class="chk"><input type="checkbox" id="chk-range" checked /> Range</label>
+          <label class="chk"><input type="checkbox" id="chk-music" checked /> Musik</label>
+          <label class="chk"><input type="checkbox" id="chk-sound" checked /> Suara</label>
+          <label class="chk"><input type="checkbox" id="chk-motion" /> Kurangi animasi</label>
+        </div>
+        <p class="hint">
+          Peta: x <b>−50…50</b>, y <b>−30…30</b>, (0,0) di tengah, y positif ke atas. Kursor: <b id="coord">-</b>.
+          Klik tempat kosong untuk menambah tower, klik tower untuk mengaturnya. Di editor, <b>Ctrl+Spasi</b> memunculkan saran.
+        </p>
+      </section>
+
+      <section class="side panel" aria-label="Editor konfigurasi">
+        <div class="tabs" role="tablist">
+          <button role="tab" data-tab="towers" class="on">towers.json</button>
+          <button role="tab" data-tab="weapons">weapons.json</button>
+          <button role="tab" data-tab="enemies">enemies.json</button>
+          <button role="tab" data-tab="level">level.json</button>
+        </div>
+        <div class="editor" id="editor">
+          <div class="gutter" id="gutter" aria-hidden="true"></div>
+          <div class="code">
+            <pre id="hl" aria-hidden="true"></pre>
+            <textarea id="ed" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Editor JSON"></textarea>
+          </div>
+        </div>
+        <div class="editor-bar">
+          <span id="ro-note" hidden>Hanya-baca. Mode sandbox ada di daftar ide lanjutan.</span>
+          <button id="btn-format" class="ghost small">Rapikan JSON</button>
+          <button id="btn-example" class="ghost small">Muat konfigurasi awal</button>
+        </div>
+        <div id="status" class="status" aria-live="polite"></div>
+        <div id="costs" class="costs"></div>
+        <details class="help">
+          <summary>Format towers.json</summary>
+          <div id="help-body"></div>
+        </details>
+      </section>
+    </main>
+    <div id="toast" class="toast" role="status" hidden></div>
+  </body>
+</html>
